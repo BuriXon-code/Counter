@@ -19,7 +19,7 @@ handle_sigint() {
 
 # Initialize variables
 count=0
-scores_file="$PREFIX/etc/counter-scores"
+scores_file="$HOME/counter-scores"
 
 # Hide cursor
 tput civis
