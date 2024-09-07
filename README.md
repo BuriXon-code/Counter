@@ -17,7 +17,17 @@ Posiadać zainstalowany **bash** oraz **figlet**.
 Posiadać **klawiaturę**.
 
 ### Pobieranie i instalacja :
-
+Instalacja pakietu **figlet** :
+```
+sudo apt update
+sudo apt install figlet -y
+```
+lub w środowisku Termux :
+```
+pkg update
+pkg install figlet
+```
+Pobieranie i instalacja Counter'a :
 ```
 git clone https://github.com/BuriXon-code/Counter
 cd Counter
