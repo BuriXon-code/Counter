@@ -2,7 +2,7 @@
 ![Gra](/tree/Zdjęcia/Counter0.png)
 ## O grze...
 
-### Gra polega Naciśnięciu możliwie wiele razy CTRL+C w ciągu 60 sekund.
+### Gra polega na naciśnięciu możliwie wiele razy CTRL+C w ciągu 60 sekund.
 
 Gra dedykowana jest osobom, którym się wybitnie nudzi. ;)
 
