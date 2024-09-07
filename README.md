@@ -26,7 +26,7 @@ sudo apt install figlet -y
 lub w środowisku Termux :
 ```
 pkg update
-pkg install figlet
+pkg install figlet -y
 ```
 Pobieranie i instalacja Counter'a :
 ```
