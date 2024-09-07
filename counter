@@ -1,0 +1,116 @@
+#!/bin/bash
+
+if [[ $1 == "top" ]]; then
+	time=0
+else
+	time=60
+fi
+
+# Function to handle SIGINT (Ctrl+C) during the game
+handle_sigint() {
+    if [ "$game_running" = true ]; then
+        ((count++))
+        clear
+        echo -e "${cyan}${bold}Press Ctrl+C as many times as you can in 60 seconds.${reset}"
+        echo -e "${green}${bold}Current Count: ${blue}$count${reset}"
+        echo -e "${yellow}Time remaining: $(($end_time - $(date +%s))) seconds${reset}"
+    fi
+}
+
+# Initialize variables
+count=0
+scores_file="$PREFIX/etc/counter-scores"
+
+# Hide cursor
+tput civis
+
+# Set up colors
+reset="\033[0m"
+red="\033[1;31m"
+green="\033[1;32m"
+yellow="\033[1;33m"
+blue="\033[1;34m"
+cyan="\033[1;36m"
+magenta="\033[1;35m"
+bold="\033[1m"
+underlined="\033[4m"
+
+# True Color (24-bit) colors for top scores
+gold="\033[38;2;255;215;0m"      # Gold color
+silver="\033[38;2;192;192;192m"  # Silver color
+bronze="\033[38;2;205;127;50m"   # Bronze color
+dark_gray="\033[38;2;100;100;100m" # Dark Gray color
+
+# Disable Ctrl+C trap temporarily
+trap 'handle_sigint' SIGINT
+
+# Notify user
+clear
+echo -e "${cyan}${bold}Press Ctrl+C as many times as you can in 60 seconds.${reset}"
+
+# Start timer
+start_time=$(date +%s)
+end_time=$((start_time + $time))
+game_running=true
+
+# Loop for 60 seconds
+while [ "$(date +%s)" -lt "$end_time" ]; do
+    sleep 1
+done
+
+# End game
+game_running=false
+
+# Restore cursor
+tput cvvis
+
+# Clear the screen
+clear
+
+# Display the count
+echo -e "${bold}${green}Number of Ctrl+C presses:${reset} ${blue}$count${reset}"
+
+# Check if figlet is installed
+if command -v figlet >/dev/null 2>&1; then
+    echo -e "\n${yellow}${bold}Result in ASCII art:${reset}"
+    echo -e "\e[1;32m" && figlet -f slant "$count Presses" # | sed "s/^/${green}/;s/$/${reset}/"
+else
+    echo -e "${yellow}Please install figlet to see the result in ASCII art.${reset}"
+fi
+
+# Ask for nickname
+echo -en "\e[1;33m"
+read -p "Enter your nickname: " nickname
+date_str=$(date "+%Y-%m-%d %H:%M:%S")
+
+# Save the score
+echo "$date_str - $nickname: $count presses" >> "$scores_file"
+
+# Display top 10 scores
+echo -e "\n${cyan}${bold}Top 10 Scores:${reset}"
+
+if [ -f "$scores_file" ]; then
+    {
+        # Extract and sort scores, then display top 10
+        sort -t':' -k4,4nr -k1,1 "$scores_file" | head -n 10 | while IFS= read -r line; do
+            # Extract score from the line
+            score=$(echo "$line" | awk -F': ' '{print $NF}' | awk '{print $1}')
+
+            # Apply colors to different rankings
+            if [[ "$score" == "$(sort -t':' -k4,4nr "$scores_file" | head -n 1 | awk -F': ' '{print $NF}' | awk '{print $1}')" ]]; then
+                echo -e "${gold}${bold}$line${reset}"
+            elif [[ "$score" == "$(sort -t':' -k4,4nr "$scores_file" | head -n 2 | tail -n 1 | awk -F': ' '{print $NF}' | awk '{print $1}')" ]]; then
+                echo -e "${silver}${bold}$line${reset}"
+            elif [[ "$score" == "$(sort -t':' -k4,4nr "$scores_file" | head -n 3 | tail -n 1 | awk -F': ' '{print $NF}' | awk '{print $1}')" ]]; then
+                echo -e "${bronze}${bold}$line${reset}"
+            else
+                echo -e "${dark_gray}${bold}$line${reset}"
+            fi
+        done
+    }
+else
+    echo -e "${red}No scores available.${reset}"
+fi
+echo
+exit
+
