@@ -1,4 +1,5 @@
 # Gra Counter (Licznik)!
+![Gra](/tree/Zdjęcia/Counter0.png)
 ## O grze...
 
 ### Gra polega Naciśnięciu możliwie wiele razy CTRL+C w ciągu 60 sekund.
@@ -39,6 +40,8 @@ chmod +x counter
 ```
 
 ### Podglądanie listy wyników :
+![Gra](/tree/Zdjęcia/Counter1.png)
+
 Aby wyświetlić listę wyników bez konieczności gry, należy użyć komendy :
 ```
 ./counter top
