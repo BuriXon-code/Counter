@@ -1,4 +1,4 @@
-# Gra Counter (Licznik)!
+# Gra Counter (Licznik)! 🇵🇱
 ![Gra](/tree/Zdjęcia/Counter0.png)
 ## O grze...
 
