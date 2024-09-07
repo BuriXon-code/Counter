@@ -9,7 +9,7 @@ Gra dedykowana jest osobom, którym się wybitnie nudzi. ;)
 
 ### Gra jest w 100% skryptem shell'owym.
 
-Gra wymaga działającego pakietu **figlet** dla prawidłowego działania.
+Gra wymaga instalacji pakietu **figlet** dla prawidłowego działania.
 
 ## Aby zagrać w grę należy ...
 
